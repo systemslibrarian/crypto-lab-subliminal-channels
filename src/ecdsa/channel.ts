@@ -20,6 +20,7 @@ export class Channel{
  async verify(sig:Uint8Array,msg=this.message){return sig.length===64&&p256.verify(sig,enc.encode(msg),this.keys.publicKey)&&await this.crossVerify(sig,msg);}
  async encode(target:0|1,limit=64,msg=this.message):Promise<SignatureSample|undefined>{
    if(!Number.isInteger(limit)||limit<1||limit>128)throw new Error('Attempt budget must be 1–128');
+   if(target!==0&&target!==1)throw new Error('Bit must be exactly 0 or 1');
    for(let attempts=1;attempts<=limit;attempts++){
      const signature=this.randomized(msg);
      const bit=this.decode(signature);
