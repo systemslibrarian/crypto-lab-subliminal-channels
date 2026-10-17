@@ -10,8 +10,8 @@ export class Channel{
  readonly message='Fictional document: library board meeting at 14:00';
  async crossVerify(sig:Uint8Array,msg=this.message){
    try{const publicRaw=p256.getPublicKey(this.keys.secretKey,false);
-     const pub=await crypto.subtle.importKey('raw',publicRaw,{name:'ECDSA',namedCurve:'P-256'},false,['verify']);
-     return await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},pub,sig,enc.encode(msg));
+     const pub=await crypto.subtle.importKey('raw',new Uint8Array(publicRaw),{name:'ECDSA',namedCurve:'P-256'},false,['verify']);
+     return await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},pub,new Uint8Array(sig),enc.encode(msg));
    }catch{return false;}
  }
  decode(sig:Uint8Array):0|1{if(sig.length!==64)throw new Error('Non-canonical signature: expected 64-byte P1363');return (sig[31]!&1) as 0|1;}
