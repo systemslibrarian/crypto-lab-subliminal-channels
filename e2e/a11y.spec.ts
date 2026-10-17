@@ -15,3 +15,13 @@ test('real interactive states pass axe WCAG A/AA and keyboard access at two widt
     expect(await page.evaluate(()=>document.activeElement?.tagName==='A'||document.activeElement?.tagName==='BUTTON')).toBe(true);
   }
 });
+
+test('real completed lesson state passes the accessibility gate at mobile width',async({page})=>{
+ await page.setViewportSize({width:390,height:850});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('./');
+ await page.locator('input[name="bit"][value="1"]').check();await page.locator('#encode').click();await expect(page.locator('#verified')).toContainText('BOTH VERIFIERS');await expect(page.locator('#decoded')).toContainText('1 — read from r');await expect(page.locator('#negative-claim')).toBeVisible();await page.locator('#deterministic').click();await expect(page.locator('#verdict')).toContainText('DETERMINISTIC OUTPUT');await page.locator('#message').fill('Changed fictional document');await expect(page.locator('#verified')).toContainText('Not verified');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+ const findings=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+ expect(findings.violations).toEqual([]);
+});
