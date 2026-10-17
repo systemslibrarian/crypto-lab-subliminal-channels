@@ -13,7 +13,7 @@ async function show(sig:Uint8Array,msg:string,attempts:number,deterministic=fals
  $('verified').textContent=native&&noble?'YES — BOTH VERIFIERS':'NO — REJECT';
  const bit=current.decode(sig);$('decoded').textContent=String(bit)+' — read from r';$('attempts').textContent=String(attempts);
  $('r').textContent=toHex(sig.slice(0,32));$('s').textContent=toHex(sig.slice(32));($('tamper') as HTMLButtonElement).disabled=false;
- if(native&&noble)verdict(deterministic?'VALID — DETERMINISTIC OUTPUT':'VALID SIGNATURE — ADDITIONAL SIGNAL PRESENT',deterministic?'Same message and key give the same RFC 6979 signature. This signing path removes the randomized-choice channel.':'Two independent verification implementations accept this real signature. The selected bit is read from its r bytes.','danger');
+ if(native&&noble)verdict(deterministic?'VALID — DETERMINISTIC OUTPUT':'VALID SIGNATURE — ADDITIONAL SIGNAL PRESENT',deterministic?'Same message and key give the same RFC 6979 signature. This signing path removes the randomized-choice channel.':'Two independent verification implementations accept this real signature. The selected bit is read from its r bytes.',deterministic?'safe':'danger');
  else verdict('SIGNATURE VERIFICATION FAILED','The browser and teaching library did not agree on validity.','danger');
 }
 async function work(fn:()=>Promise<void>){if(busy)return;busy=true;for(const name of ['encode','deterministic'])($(name) as HTMLButtonElement).disabled=true;try{await fn();}catch(e){verdict('Operation failed',String(e),'danger');}finally{busy=false;for(const name of ['encode','deterministic'])($(name) as HTMLButtonElement).disabled=false;}}

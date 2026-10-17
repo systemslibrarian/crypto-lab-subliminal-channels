@@ -8,4 +8,5 @@ test('real P256 signature conveys a chosen bit with both independent signature c
  await page.locator('#tamper').click();await expect(page.locator('#verified')).toContainText('altered message rejected');
  await page.locator('#message').fill('changed');await expect(page.locator('#verified')).toContainText('Not verified');
  await page.locator('#deterministic').click();await expect(page.locator('#verdict')).toContainText('DETERMINISTIC OUTPUT');
+ await expect(page.locator('#verdict')).toHaveAttribute('data-tone','safe');
 });
