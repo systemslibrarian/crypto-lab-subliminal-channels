@@ -42,7 +42,7 @@ RFC 6979 (deterministic ECDSA); FIPS 186-5 (digital signatures). Related: [ECDSA
 
 ## Build & Verify
 
-The suite includes the RFC 6979 P-256/SHA-256 `sample` known-answer vector (including the normalized low-s value), deterministic repeatability, independent WebCrypto verification, chosen-bit encoding, invalid bit rejection, strict 64-byte signature encoding and altered-message rejection. Playwright verifies the actual browser output and mobile accessibility.
+The suite includes the RFC 6979 P-256/SHA-256 `sample` known-answer vector (including the normalized low-s value), deterministic repeatability, independent WebCrypto verification, chosen-bit encoding, invalid bit rejection, strict 64-byte signature encoding and altered-message rejection. Changing the message, selected bit or synthetic key retires completed evidence, and a superseded signing operation cannot restore it. Playwright verifies the actual browser output and mobile accessibility.
 
 CI runs Vitest and Playwright, checks the production build, and refuses deployment on failures. After the Pages publish step, a fresh HTTP GET must return `deployment.json` identifying the exact `GITHUB_SHA` and GitHub repository, and a second GET must return HTML containing the app mount. The hosted source SHA is **deployed build identity evidence**, not a cryptographic security proof. Full negative-claim and mutation-test compliance remains subject to independent review.
 
