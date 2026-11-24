@@ -40,3 +40,12 @@ test('superseded signing cannot restore evidence after document or key changes',
  await expect(page.locator('#verified')).toHaveText('Not verified');
  await expect(page.locator('#decoded')).toHaveText('Not verified');
 });
+
+test('editing a verified document retires the previous comparison explanation', async ({ page }) => {
+  await page.goto('./');
+  await page.locator('#deterministic').click();
+  await expect(page.locator('#lesson')).toContainText('byte-identical');
+  await page.locator('#message').fill('A different fictional library notice');
+  await expect(page.locator('#verified')).toHaveText('Not verified');
+  await expect(page.locator('#lesson')).toHaveText('The current settings have no verification result.');
+});

@@ -6,7 +6,7 @@ root.innerHTML=`<section class="panel"><p class="eyebrow">Signature valid ≠ si
 const $=(id:string)=>document.getElementById(id)!;
 let last:Uint8Array|undefined;let lastMessage='';let current=lab;let busy=false;let generation=0;
 function verdict(title:string,detail:string,tone:'safe'|'warn'|'danger'='warn'){const el=$('verdict');el.dataset.tone=tone;el.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;const p=document.createElement('p');p.textContent=detail;el.append(strong,p);}
-function clearEvidence(title:string,detail:string,tone:'safe'|'warn'|'danger'='warn'){last=undefined;lastMessage='';$('verified').textContent='Not verified';$('decoded').textContent='Not verified';$('attempts').textContent='—';$('r').textContent='—';$('s').textContent='—';($('tamper') as HTMLButtonElement).disabled=true;verdict(title,detail,tone);}
+function clearEvidence(title:string,detail:string,tone:'safe'|'warn'|'danger'='warn'){last=undefined;lastMessage='';$('lesson').textContent='The current settings have no verification result.';$('verified').textContent='Not verified';$('decoded').textContent='Not verified';$('attempts').textContent='—';$('r').textContent='—';$('s').textContent='—';($('tamper') as HTMLButtonElement).disabled=true;verdict(title,detail,tone);}
 function invalidate(){generation+=1;clearEvidence('Previous verdict retired','Document, selected bit, or key changed. Sign again.');}
 function message(){return ($('message') as HTMLTextAreaElement).value;}
 function isCurrent(operation:number,signer:Channel,msg:string){return operation===generation&&signer===current&&msg===message();}
